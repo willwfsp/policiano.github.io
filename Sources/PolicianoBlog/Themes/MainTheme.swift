@@ -198,7 +198,10 @@ extension Node where Context == HTML.BodyContext {
             guard tag == item.tags.first else {
                 return .empty
             }
-            return .p(.class("date"), .text("March 11, 2021"))
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd MM yyyy"
+            let date = formatter.string(from: item.date)
+            return .p(.class("date"), .text(date))
         }
 
         return .ul(.class("tag-list"), .forEach(item.tags) { tag in
