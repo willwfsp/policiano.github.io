@@ -11,7 +11,7 @@ private struct MainThemeFactory<Site: Website>: HTMLFactory {
             .body(
                 .header(for: context, selectedSection: nil),
                 .wrapper(
-                    .h1(.text(index.title)),
+//                    .h1(.text(index.title)),
                     .p(
                         .class("description"),
                         .text(context.site.description)
