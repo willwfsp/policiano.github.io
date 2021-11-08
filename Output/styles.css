@@ -95,7 +95,7 @@ a:hover {
     padding-top: 20px;
 }
 
-.item-list p {
+.item-list p .date {
     color: #586069;
 }
 
@@ -119,12 +119,12 @@ a:hover {
 }
 
 .tag-list {
+    font-size: 100px;
     margin-bottom: 6px;
 }
 
 .tag-list li,
-.tag,
-.date {
+.tag {
     display: inline-block;
     color: #8e8e93;
     padding: 0px 6px 6px 0px;
@@ -146,7 +146,6 @@ a:hover {
 }
 
 .all-tags li {
-    font-size: 1.4em;
     margin-right: 10px;
     padding: 6px 10px;
 }
@@ -170,7 +169,7 @@ footer a {
         color: #ddd;
     }
 
-    .item-list p {
+    .item-list .date p  {
         color: #d1d1d6;
     }
 

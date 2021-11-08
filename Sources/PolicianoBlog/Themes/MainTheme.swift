@@ -178,7 +178,8 @@ extension Node where Context == HTML.BodyContext {
             .class("item-list"),
             .forEach(items) { item in
                 .li(.article(
-                    .tagList(for: item, on: site),
+                    .dateAndTag(for: item, on: site),
+
                     .h1(.a(
                         .href(item.path),
                         .text(item.title)
@@ -189,28 +190,40 @@ extension Node where Context == HTML.BodyContext {
         )
     }
 
+    static func dateAndTag<T: Website>(for item: Item<T>, on site: T) -> Node {
+
+        return .div(
+            .style("overflow: hidden;"),
+            .div(
+                .style("float: left"),
+                .postDate(for: item)
+            ),
+            .tagList(for: item, on: site)
+        )
+    }
+
     static func tagList<T: Website>(for item: Item<T>, on site: T) -> Node {
         func addingComma(tag: Tag) -> String {
             "\(tag.string.capitalized)\(tag != item.tags.last ? ", " : "")"
         }
 
-        func addDateIfFirst(tag: Tag) -> Node<HTML.BodyContext> {
-            guard tag == item.tags.first else {
-                return .empty
-            }
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd MM yyyy"
-            let date = formatter.string(from: item.date)
-            return .p(.class("date"), .text(date))
-        }
+        return .ul(
+            .class("tag-list"),
+            .forEach(item.tags) { tag in
+                .li(.a(
+                    .href(site.path(for: tag)),
+                    .text(addingComma(tag: tag))
+                ))
+            })
+    }
 
-        return .ul(.class("tag-list"), .forEach(item.tags) { tag in
-            .li(addDateIfFirst(tag: tag),
-                .a(
-                .href(site.path(for: tag)),
-                .text(addingComma(tag: tag))
-            ))
-        })
+    static func postDate<T: Website>(for item: Item<T>) -> Node {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        let date = formatter.string(from: item.date)
+
+        return .div(.class("date"), .style("color: #586069; margin-right: 16px;"), .text(date))
     }
 
     static func footer<T: Website>(for site: T) -> Node {
